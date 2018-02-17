@@ -1,0 +1,108 @@
+<html>
+<head>
+    <title>Todo</title>
+    <!-- 静态文件放在 /static 文件夹中 -->
+    <!-- 引用路径是 /static/... -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+<nav class="navbar navbar-inverse container">
+    <div class="navbar-header"><a class="navbar-brand" href="/">TODO</a></div>
+    <!-- logout links -->
+
+    <ul class="nav navbar-nav pull-right">
+        <li><a class="btn" href="{{ url_for('index.logout') }}">logout</a></li>
+    </ul>
+</nav>
+<div class="container">
+    <!-- flash message -->
+
+
+    <!-- body block -->
+
+
+    <table class="table table-hover">
+        <thead>
+        <th class="active">No</th>
+        <th class="active">描述</th>
+        <th class="active">是否完成</th>
+        <th class="active">创建时间</th>
+        <th class='active'>操作</th>
+        </thead>
+        <tbody>
+        {% for t in todos %}
+            <tr class="info">
+                <td>{{ t.id }}</td>
+                <td>{{ t.title }}</td>
+                <td>{{ t.completed }}</td>
+                <td>{{ strtime(t.ct) }}</td>
+                <td>
+                    <a href="{{ url_for('todo.update', todo_id=t.id) }}" class="btn btn-success" role="button">修改</a>
+
+                    <a href="{{ url_for('todo.delete', todo_id=t.id) }}" class="btn btn-success" role="button">删除</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal"> ADD</button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span
+                            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel" align="center">添加一个新的ToDo</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+                            {% for t in todos %}
+                                <form action="{{ url_for('todo.add', todo_id=t.id) }}" method="post"
+                                      class="form form-horizontal" role="form">
+                            {% endfor %}
+                            <div class="form-group  required">
+                                <label class="control-label  col-lg-2" for="title">标题</label>
+                                <div class=" col-lg-10">
+
+                                    <input class="form-control" id="title" name="title" required type="text" value="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-offset-2col-lg-10">
+                                    <div class="radio">
+                                        <label>
+                                            <input id="status-0" name="completed" type="radio" value="1"> 是
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input id="status-1" name="completed" type="radio" value="0"> 否
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-offset-2 col-lg-10 ">
+                                    <input class="btn btn-default" id="submit" name="submit" type="submit" value="提交">
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div> <!-- modal body -->
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>
